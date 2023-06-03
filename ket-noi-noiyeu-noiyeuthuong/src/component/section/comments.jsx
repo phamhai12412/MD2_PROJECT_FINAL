@@ -194,9 +194,12 @@ function CommentSection({ idpost, goilaipostcanhan }) {
         <div className="widget-title"></div>
         <ul style={{ padding: "0px" }} className="comment-list">
           {updatedBinhluan.map((item, index) => (
-            <li className="comment" key={index}>
+            <li style={{ padding: "0px" }} className="comment" key={index}>
               <div className="com-content">
-                <div className="com-title">
+                <div
+                  className="com-title "
+                  style={{ backgroundColor: "rgb(13 0 70 / 56%)" }}
+                >
                   <div className="com-title-meta">
                     <div>
                       <img

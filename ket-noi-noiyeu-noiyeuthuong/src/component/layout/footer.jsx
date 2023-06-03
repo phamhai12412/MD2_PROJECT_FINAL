@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const posttitle = "Tin Tức Gần Đây Của Chúng Tôi";
-const abouttitle = "Giới Thiệu Về Dating Online";
+const abouttitle = "Giới Thiệu Về Blog.vn";
 const aboutpara =
   "Sứ mệnh kết nối, để mọi người dễ dàng gặp đến gần nhau hơn tạo nên những điều kì diệu";
 const newstitle = "Đăng ký cập nhật";
@@ -19,13 +19,13 @@ let RecentPostList = [
   {
     imgUrl: "assets/images/footer/02.jpg",
     imgAlt: "recent post",
-    postTitle: "Dating Online hợp tác cùng Facebook... .",
+    postTitle: "Blog.vn hợp tác cùng Facebook... .",
     postDate: "July 23, 2021",
   },
   {
     imgUrl: "assets/images/footer/03.jpg",
     imgAlt: "recent post",
-    postTitle: "Dating Online lọt top 10 ứng dụng... .",
+    postTitle: "Blog.vn lọt top 10 ứng dụng... .",
     postDate: "July 23, 2021",
   },
 ];
@@ -67,7 +67,7 @@ function FooterSection() {
                     />
                   </div>
                   <div className="lab-content">
-                    <span>Email : admin@Dating Online.com</span>
+                    <span>Email : admin@Blog.vn.com</span>
                   </div>
                 </div>
               </div>
@@ -182,7 +182,7 @@ function FooterSection() {
             <div className="col-12">
               <div className="footer-bottom-content text-center">
                 <p>
-                  &copy; 2023 <Link to="/">Dating Online</Link> -Best For Dating
+                  &copy; 2023 <Link to="/">Blog.vn</Link> -Best For Dating
                   website .
                 </p>
               </div>

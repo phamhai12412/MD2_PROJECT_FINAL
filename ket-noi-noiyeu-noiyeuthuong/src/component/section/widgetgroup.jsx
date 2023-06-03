@@ -1,14 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const title = "join the group";
+const title = "Tham gia một group";
 
 let WidgetGroupContentList = [
   {
-    gName: "Active Group A1",
-    gDesc:
-      "Colabors atively fabcate best breed and apcations through visionary",
-    btnText: "View Group",
+    gName: "Du lịch Hà Nội",
+    gDesc: "Ngôi nhà chung dành cho các bạn yêu thích du lịch Hà Nội",
     gCount: "12+",
     gImgList: [
       {
@@ -26,10 +24,8 @@ let WidgetGroupContentList = [
     ],
   },
   {
-    gName: "Active Group A2",
-    gDesc:
-      "Colabors atively fabcate best breed and apcations through visionary",
-    btnText: "View Group",
+    gName: "Du lịch Thái Bình",
+    gDesc: "Ngôi nhà chung dành cho các bạn yêu thích du lịch Thái Bình",
     gCount: "12+",
     gImgList: [
       {

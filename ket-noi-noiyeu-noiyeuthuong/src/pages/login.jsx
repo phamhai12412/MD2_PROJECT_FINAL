@@ -34,34 +34,65 @@ const LoginPage = () => {
           // console.log(response.data);
           // console.log(payload);
 
-          const found = res.data.some(
+          const found2 = res.data.some(
             (obj) =>
-              obj.usename === payload.username &&
-              obj.password === payload.password
+              obj.usename.trim() === payload.username &&
+              obj.password.trim() === payload.password &&
+              obj.trangthai == "khoa"
           );
-
-          // Điều hướng tới trang chính hoặc trang sau khi đăng nhập thành công
-          if (found) {
-            localStorage.setItem("usenameonl", userName);
-            const datauseol = res.data.find(
-              (item) => item.usename === userName
+          if (found2) {
+            swal("Oops!", "Tài khoản bị khóa, liên hệ admin", "error");
+          } else {
+            const found = res.data.some(
+              (obj) =>
+                obj.usename.trim() == payload.username &&
+                obj.password.trim() == payload.password &&
+                obj.trangthai != "khoa"
             );
-            localStorage.setItem("idusenameonl", datauseol.id);
-            localStorage.setItem("avatar", datauseol.imgUrl);
-            localStorage.setItem("thongtin", JSON.stringify(datauseol));
+            if (found) {
+              localStorage.setItem("usenameonl", userName);
+              const datauseol = res.data.find(
+                (item) => item.usename == userName
+              );
+              localStorage.setItem("idusenameonl", datauseol.id);
+              localStorage.setItem("avatar", datauseol.imgUrl);
 
-            navigate("/");
-          } else
-            swal(
-              "Oops!",
-              "Đăng nhập lỗi, nếu bạn chưa có tài khoản nhớ đăng kí",
-              "error"
-            );
+              navigate("/");
+            } else
+              swal(
+                "Oops!",
+                "Đăng nhập lỗi, nếu bạn chưa có tài khoản nhớ đăng kí",
+                "error"
+              );
+          }
         })
         .catch((error) => {
           // Xử lý lỗi từ API hoặc yêu cầu không thành công
           console.error("Báo lỗi kiểm tra link api", error);
         });
+    }
+    ///check admin
+    if (userName == "" || userPass == "") {
+      swal(
+        "Oops!",
+        "Đăng nhập lỗi, nếu bạn chưa có tài khoản nhớ đăng kí",
+        "error"
+      );
+    } else {
+      // Gửi yêu cầu đăng nhập tới API bằng axios
+      axios.get("http://localhost:8000/admin").then((res) => {
+        // Xử lý phản hồi thành công từ API
+        // console.log(response.data);
+        // console.log(payload);
+        if (
+          res.data.usename.trim() === payload.username &&
+          res.data.password.trim() === payload.password
+        ) {
+          localStorage.setItem("usenameonl", userName);
+          swal("Good job!", "xin chào admin", "success");
+          navigate("/adminuse");
+        }
+      });
     }
   };
 
@@ -79,8 +110,8 @@ const LoginPage = () => {
                   type="text"
                   name="name"
                   id="item01"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
+                  // value={userName}
+                  onChange={(e) => setUserName(e.target.value.trim())}
                   placeholder="User Name *"
                 />
               </div>
@@ -89,8 +120,8 @@ const LoginPage = () => {
                   type="password"
                   name="password"
                   id="item02"
-                  value={userPass}
-                  onChange={(e) => setUserPass(e.target.value)}
+                  // value={userPass}
+                  onChange={(e) => setUserPass(e.target.value.trim())}
                   placeholder="Password *"
                 />
               </div>

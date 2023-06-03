@@ -11,7 +11,7 @@ function PageHeader() {
         <div className="page-header-content">
           <div className="page-header-inner">
             <div className="page-title">
-              <h2>Dating Online</h2>
+              <h2>Blog.vn</h2>
             </div>
             <ol className="breadcrumb">
               <li>

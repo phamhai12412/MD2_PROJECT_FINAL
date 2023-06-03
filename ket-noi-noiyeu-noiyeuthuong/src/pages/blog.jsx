@@ -19,17 +19,15 @@ function BlogPage() {
   const navigate = useNavigate();
   let useonl = localStorage.getItem("usenameonl");
   useEffect(() => {
-    if (useonl == -1) {
-      swal("Oops!", "Đăng nhập đi, không vào được đâu :))", "error");
+    if (useonl == -1 || useonl == "admin") {
+      swal("Oops!", "Bạn chưa đăng nhập", "error");
+      localStorage.setItem("usenameonl", "-1");
       navigate("/login");
     }
   }, [useonl]);
   //kết thúc check đăng nhập
   //ẩn hiện comment
-  const [toggel, setToggel] = useState(false);
-  const handletoggel = () => {
-    setToggel(!toggel);
-  };
+
   //ẩn hiện comment
   let Blogpage = [
     {
@@ -93,7 +91,6 @@ function BlogPage() {
                             </span>{" "}
                           </a>
                           <a
-                            onClick={handletoggel}
                             style={{ cursor: "pointer" }}
                             className="blog-comment"
                           >
@@ -104,15 +101,6 @@ function BlogPage() {
                           </a>
                         </div>
                       </div>
-                      {!toggel ? (
-                        <>
-                          {" "}
-                          <CommentRespond></CommentRespond>
-                          <CommentSection></CommentSection>{" "}
-                        </>
-                      ) : (
-                        <></>
-                      )}
                     </div>
                   </div>
                   <div className="post-item post-slider">

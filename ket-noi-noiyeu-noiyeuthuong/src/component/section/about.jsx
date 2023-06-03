@@ -1,8 +1,8 @@
 import React from "react";
 import SectionHeader from "./sectionheader";
 
-const subtitle = <h4>About Our Dating Online</h4>;
-const title = <h2>It All Starts With A Date</h2>;
+const subtitle = <h4>Giới thiệu về hẹn hò trực tuyến của chúng tôi</h4>;
+const title = "";
 const alignment = "section-header";
 
 let AboutContentList = [

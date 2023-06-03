@@ -37,7 +37,7 @@ let ContactInfoList = [
     imgUrl: "assets/images/contact/04.png",
     imgAlt: "contact info thumb",
     infoTitle: "Our Website",
-    infoDesc: "www.Dating Online.com",
+    infoDesc: "www.Blog.vn.com",
   },
 ];
 
@@ -51,8 +51,9 @@ function ContactPage() {
   const navigate = useNavigate();
   let useonl = localStorage.getItem("usenameonl");
   useEffect(() => {
-    if (useonl == -1) {
-      swal("Oops!", "Đăng nhập đi, không vào được đâu :))", "error");
+    if (useonl == -1 || useonl == "admin") {
+      swal("Oops!", "Bạn chưa đăng nhập", "error");
+      localStorage.setItem("usenameonl", "-1");
       navigate("/login");
     }
   }, [useonl]);

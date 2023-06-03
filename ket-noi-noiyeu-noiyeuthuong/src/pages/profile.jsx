@@ -20,8 +20,9 @@ function ProfilePage() {
   const navigate = useNavigate();
   let useonl = localStorage.getItem("usenameonl");
   useEffect(() => {
-    if (useonl == -1) {
-      swal("Oops!", "Đăng nhập đi, không vào được đâu :))", "error");
+    if (useonl == -1 || useonl == "admin") {
+      swal("Oops!", "Bạn chưa đăng nhập", "error");
+      localStorage.setItem("usenameonl", "-1");
       navigate("/login");
     }
   }, [useonl]);
@@ -77,9 +78,17 @@ function ProfilePage() {
   // Sử dụng handleAPICall khi cần thiết
 
   ////////////
-  let postuse = allpost.filter((post) => post.idusepost == viewprofile);
-  // console.log(postuse);
 
+  let postuse = allpost.filter((post) => post.idusepost == viewprofile);
+  console.log("day là post", postuse);
+
+  //lọc ra các post có trạng thái hiện
+
+  let phanTuHien = postuse.filter(function (phanTu) {
+    return phanTu.trangthai == "hien";
+  });
+  postuse = phanTuHien;
+  //kết thúc lọc
   // kết thúc view
 
   //ẩn hiện comment
@@ -103,9 +112,10 @@ function ProfilePage() {
       time: new Date().toLocaleString(),
       noidung: postContent,
       binhluan: [],
-      like: 0,
+
       imgpost: "", // Giá trị ban đầu của imgpost
       uselike: [],
+      trangthai: "hien",
     };
 
     if (selectedImage) {
@@ -320,6 +330,31 @@ function ProfilePage() {
       .catch((err) => console.log(err));
     console.log(laythongtinallbanbe);
   };
+  ///chưc nang like
+  let idusenameonl = localStorage.getItem("idusenameonl");
+
+  let kiemtra = -1;
+  const chucnanglike = (e) => {
+    console.log("chuc nang like", e);
+    kiemtra = e.uselike.indexOf(idusenameonl);
+    let manguselike = [...e.uselike];
+    if (kiemtra != -1) {
+      manguselike.splice(kiemtra, 1);
+      axios
+        .patch(`http://localhost:8000/post/${e.id}`, { uselike: manguselike })
+        .then((res) => console.log("xoa thanh cong"))
+        .catch((err) => console.log(err));
+      goilaipost();
+    } else {
+      manguselike.push(idusenameonl);
+      axios
+        .patch(`http://localhost:8000/post/${e.id}`, { uselike: manguselike })
+        .then((res) => console.log("them thanh cong"))
+        .catch((err) => console.log(err));
+      goilaipost();
+    }
+  };
+  ///
 
   return (
     <div>
@@ -793,8 +828,8 @@ function ProfilePage() {
                                                     marginLeft: "20px",
                                                   }}
                                                 >
-                                                  Julia, Petrova and {e.like}{" "}
-                                                  like this
+                                                  Julia, Petrova and{" "}
+                                                  {e.uselike.length} like this
                                                 </span>
                                               </a>
                                             </p>
@@ -812,13 +847,33 @@ function ProfilePage() {
                                             className="post-meta-bottom"
                                           >
                                             <ul className="react-list">
-                                              <li className="react">
-                                                <a
-                                                  style={{ cursor: "pointer" }}
-                                                >
-                                                  <i className="icofont-like"></i>
-                                                  Like
-                                                </a>{" "}
+                                              <li
+                                                onClick={() => {
+                                                  chucnanglike(e);
+                                                }}
+                                                className="react"
+                                              >
+                                                {e.uselike.indexOf(
+                                                  idusenameonl
+                                                ) == -1 ? (
+                                                  <a
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                  >
+                                                    <i className="icofont-like"></i>
+                                                    Like
+                                                  </a>
+                                                ) : (
+                                                  <a
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                  >
+                                                    <i className="icofont-like"></i>
+                                                    DisLike
+                                                  </a>
+                                                )}
                                               </li>
                                               <li className="react">
                                                 <a

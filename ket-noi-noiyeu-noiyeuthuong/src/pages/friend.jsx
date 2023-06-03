@@ -13,19 +13,20 @@ import CommentSection from "../component/section/comments";
 function FriendPage() {
   //check đăng nhập
   let xembanbe = localStorage.getItem("xembanbe");
-  const idusenameonl = localStorage.getItem("idusenameonl");
+  let idusenameonl = localStorage.getItem("idusenameonl");
   const navigate = useNavigate();
   let useonl = localStorage.getItem("usenameonl");
   useEffect(() => {
-    if (useonl == -1) {
-      swal("Oops!", "Đăng nhập đi, không vào được đâu :))", "error");
+    if (useonl == -1 || useonl == "admin") {
+      swal("Oops!", "Bạn chưa đăng nhập", "error");
+      localStorage.setItem("usenameonl", "-1");
       navigate("/login");
-    } else if (xembanbe == idusenameonl) {
-      navigate("/profile");
     }
   }, [useonl]);
   //kết thúc check đăng nhập
-
+  if (xembanbe == idusenameonl) {
+    navigate("/profile");
+  }
   //gọi api bài post
   const [allpost, setallpost] = useState([]);
 
@@ -108,7 +109,7 @@ function FriendPage() {
       .then((res) => {
         console.log(res.data);
         setIsFriend(true);
-        swal("Success!", "Đã thêm bạn bè!", "success");
+        swal("Success!", "Đã theo dõi !", "success");
         goidulieuuseonl();
         goilaiinfouse();
         goilaipost();
@@ -128,7 +129,7 @@ function FriendPage() {
       .then((res) => {
         console.log(res.data);
         setIsFriend(false);
-        swal("Success!", "Đã hủy kết bạn!", "success");
+        swal("Success!", "Đã hủy theo dõi !", "success");
         goidulieuuseonl();
         goilaiinfouse();
         goilaipost();
@@ -136,7 +137,37 @@ function FriendPage() {
       .catch((err) => console.log(err));
   };
   let postuse = allpost.filter((post) => post.idusepost == xembanbe);
-  console.log(postuse);
+
+  //lọc ra các post có trạng thái hiện
+
+  let phanTuHien = postuse.filter(function (phanTu) {
+    return phanTu.trangthai == "hien";
+  });
+  postuse = phanTuHien;
+  ///chưc nang like
+
+  let kiemtra = -1;
+  const chucnanglike = (e) => {
+    console.log("chuc nang like", e);
+    kiemtra = e.uselike.indexOf(idusenameonl);
+    let manguselike = [...e.uselike];
+    if (kiemtra != -1) {
+      manguselike.splice(kiemtra, 1);
+      axios
+        .patch(`http://localhost:8000/post/${e.id}`, { uselike: manguselike })
+        .then((res) => console.log("xoa thanh cong"))
+        .catch((err) => console.log(err));
+      goilaipost();
+    } else {
+      manguselike.push(idusenameonl);
+      axios
+        .patch(`http://localhost:8000/post/${e.id}`, { uselike: manguselike })
+        .then((res) => console.log("them thanh cong"))
+        .catch((err) => console.log(err));
+      goilaipost();
+    }
+  };
+  ///
   return (
     <div>
       <Header />
@@ -202,7 +233,7 @@ function FriendPage() {
                                 }}
                                 onClick={removeFriend}
                               >
-                                Hủy kết bạn
+                                Hủy theo dõi
                               </button>
                             </>
                           ) : (
@@ -218,7 +249,7 @@ function FriendPage() {
                               }}
                               onClick={addFriend}
                             >
-                              Kết bạn
+                              Theo dõi
                             </button>
                           )}
                         </div>
@@ -427,8 +458,8 @@ function FriendPage() {
                                                     marginLeft: "20px",
                                                   }}
                                                 >
-                                                  Julia, Petrova and {e.like}{" "}
-                                                  like this
+                                                  Julia, Petrova and{" "}
+                                                  {e.uselike.length} like this
                                                 </span>
                                               </a>
                                             </p>
@@ -446,13 +477,33 @@ function FriendPage() {
                                             className="post-meta-bottom"
                                           >
                                             <ul className="react-list">
-                                              <li className="react">
-                                                <a
-                                                  style={{ cursor: "pointer" }}
-                                                >
-                                                  <i className="icofont-like"></i>
-                                                  Like
-                                                </a>{" "}
+                                              <li
+                                                onClick={() => {
+                                                  chucnanglike(e);
+                                                }}
+                                                className="react"
+                                              >
+                                                {e.uselike.indexOf(
+                                                  idusenameonl
+                                                ) == -1 ? (
+                                                  <a
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                  >
+                                                    <i className="icofont-like"></i>
+                                                    Like
+                                                  </a>
+                                                ) : (
+                                                  <a
+                                                    style={{
+                                                      cursor: "pointer",
+                                                    }}
+                                                  >
+                                                    <i className="icofont-like"></i>
+                                                    DisLike
+                                                  </a>
+                                                )}
                                               </li>
                                               <li className="react">
                                                 <a

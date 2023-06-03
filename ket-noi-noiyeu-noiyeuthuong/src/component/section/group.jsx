@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import GroupItem from "../items/groupitems";
 import axios from "axios";
 
-const subtitle = "Recently Active Groups";
-const title = "Dating Online 4 Best Active Group";
+const subtitle = "Nhóm hoạt động gần đây";
+const title = "Blog.vn";
 
 function GroupSection() {
   const [GrouoListContent, setGrouoListContent] = useState([]);

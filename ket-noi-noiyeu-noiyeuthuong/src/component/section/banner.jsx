@@ -1,10 +1,10 @@
 import React from "react";
 
-const bannertitle = "Giới thiệu Dating Online";
+const bannertitle = "Giới Thiệu Blog.vn";
 const bannerdesc = (
   <p>
-    Hẹn hò nghiêm túc với <strong>Dating Online </strong> Người bạn đời hoàn hảo
-    của bạn với 1 cú nhấp.
+    Hẹn hò nghiêm túc với <strong>Blog.vn </strong> Người bạn đời hoàn hảo của
+    bạn với 1 cú nhấp.
   </p>
 );
 

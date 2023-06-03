@@ -1,6 +1,6 @@
 import React from "react";
 
-const subTitle = "Tải xuống ứng dụng Dating Online của chúng tôi";
+const subTitle = "Tải xuống ứng dụng Blog.vn của chúng tôi";
 const Title = "Dễ dàng kết nối với mọi người";
 const desc =
   "Bạn tìm thấy chúng tôi, cuối cùng, và bạn đã yêu. Hơn 5.000.000 trên khắp thế giới đã chia sẻ cùng trải nghiệm và đang sử dụng hệ thống của chúng tôi Tham gia cùng chúng tôi hôm nay trở nên dễ dàng hơn!";

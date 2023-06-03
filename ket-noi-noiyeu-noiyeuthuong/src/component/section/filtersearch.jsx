@@ -1,10 +1,86 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const title = "Lọc Tìm Kiếm Thành Viên";
 const desc =
-  "Hẹn Hò Nghiêm túc Với Dating Online Người bạn đời hoàn hảo của bạn chỉ là một cú nhấp chuột.";
+  "Hẹn Hò Nghiêm túc Với Blog.vn Người bạn đời hoàn hảo của bạn chỉ là một cú nhấp chuột.";
 
 function FilterSearchSection() {
+  const navigate = useNavigate();
+  const [goiapidatause, setgoiapidatause] = useState(true);
+  const [Datause, setallmember] = useState([]);
+  useEffect(() => {
+    if (goiapidatause) {
+      axios
+        .get("http://localhost:8000/Datause")
+        .then((res) => {
+          setallmember(res.data);
+          setgoiapidatause(false); // Đặt biến flag thành false sau khi hoàn thành cuộc gọi API
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [goiapidatause]);
+
+  // Khi bạn muốn gọi API, đặt biến flag thành true
+  const handleAPICall = () => {
+    setgoiapidatause(true);
+  };
+
+  const [gender, setGender] = useState(""); // Biến trạng thái cho giới tính
+  const [age, setAge] = useState(""); // Biến trạng thái cho tuổi
+  const [address, setAddress] = useState(""); // Biến trạng thái cho địa chỉ
+  const [interest, setInterest] = useState(""); // Biến trạng thái cho sở thích
+
+  const handleGenderChange = (event) => {
+    // Hàm được gọi khi giá trị của trường input giới tính thay đổi
+    setGender(event.target.value);
+  };
+
+  const handleAgeChange = (event) => {
+    // Hàm được gọi khi giá trị của trường input tuổi thay đổi
+    setAge(event.target.value);
+  };
+
+  const handleAddressChange = (event) => {
+    // Hàm được gọi khi giá trị của trường input địa chỉ thay đổi
+    setAddress(event.target.value);
+  };
+
+  const handleInterestChange = (event) => {
+    // Hàm được gọi khi giá trị của trường input sở thích thay đổi
+    setInterest(event.target.value);
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleAPICall();
+    const filteredData = Datause.filter((item) => {
+      if (
+        gender !== "" &&
+        item.gioitinh.toLowerCase() !== gender.toLowerCase()
+      ) {
+        return false;
+      }
+      if (age !== "" && item.tuoi !== age) {
+        return false;
+      }
+      if (
+        address !== "" &&
+        item.diachi.toLowerCase() !== address.toLowerCase()
+      ) {
+        return false;
+      }
+      if (interest !== "" && !item.sothich.includes(interest)) {
+        return false;
+      }
+      return true;
+    });
+
+    // Thay đổi điều kiện kiểm tra thành filteredData.length > 0
+    localStorage.setItem("timkiem", JSON.stringify(filteredData));
+    navigate("/timkiem");
+  };
+
   return (
     <div>
       <div className="widget search-widget">
@@ -14,103 +90,69 @@ function FilterSearchSection() {
           </div>
           <div className="widget-content">
             <p>{desc}</p>
-            <form className="banner-form">
-              <div className="gender">
-                <div className="custom-select right w-100">
-                  <select>
-                    <option value="0">Tôi là </option>
-                    <option value="1">Nam</option>
-                    <option value="2">Nữ</option>
-                  </select>
-                </div>
-              </div>
+            <form className="banner-form" onSubmit={handleSubmit}>
               <div className="person">
                 <div className="custom-select right w-100">
-                  <select>
-                    <option value="0">Tìm kiếm</option>
-                    <option value="1">Nam</option>
-                    <option value="2">Nữ</option>
+                  <select
+                    name="gender"
+                    value={gender}
+                    onChange={handleGenderChange}
+                  >
+                    <option value="">Tìm kiếm</option>
+                    <option value="nam">Nam</option>
+                    <option value="nữ">Nữ</option>
                   </select>
                 </div>
               </div>
               <div className="age">
                 <div className="right d-flex justify-content-between w-100">
                   <div className="custom-select">
-                    <select>
-                      <option value="1">18</option>
-                      <option value="2">19</option>
-                      <option value="3">20</option>
-                      <option value="4">21</option>
-                      <option value="5">22</option>
-                      <option value="6">23</option>
-                      <option value="7">24</option>
-                      <option value="8">25</option>
-                      <option value="9">26</option>
-                      <option value="10">27</option>
-                      <option value="11">28</option>
-                      <option value="13">29</option>
-                      <option value="14">30</option>
-                    </select>
-                  </div>
-
-                  <div className="custom-select">
-                    <select>
-                      <option value="1">36</option>
-                      <option value="2">19</option>
-                      <option value="3">20</option>
-                      <option value="4">21</option>
-                      <option value="5">22</option>
-                      <option value="6">23</option>
-                      <option value="7">24</option>
-                      <option value="8">25</option>
-                      <option value="9">26</option>
-                      <option value="10">27</option>
-                      <option value="11">28</option>
-                      <option value="13">29</option>
-                      <option value="14">30</option>
+                    <select value={age} onChange={handleAgeChange}>
+                      <option value="">Tuổi</option>
+                      <option value="18">18</option>
+                      <option value="19">19</option>
+                      <option value="20">20</option>
+                      {/* Add more options for age */}
                     </select>
                   </div>
                 </div>
               </div>
               <div className="city">
                 <div className="custom-select right w-100">
-                  <select className="">
-                    <option value="0">Khu vực</option>
-                    <option value="1">Việt Nam</option>
-                    <option value="2">USA</option>
-                    <option value="3">Spain</option>
-                    <option value="4">Brazil</option>
-                    <option value="5">France</option>
-                    <option value="6">Newzeland</option>
-                    <option value="7">Australia</option>
-                    <option value="8">Bangladesh</option>
-                    <option value="9">Turki</option>
-                    <option value="10">Chine</option>
-                    <option value="11">India</option>
-                    <option value="12">Canada</option>
+                  <select
+                    className=""
+                    value={address}
+                    onChange={handleAddressChange}
+                  >
+                    <option value="">Khu vực</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                    <option value="Đà Lạt">Đà Lạt</option>
+                    <option value="Nha Trang">Nha Trang</option>
                   </select>
                 </div>
               </div>
               <div className="interest">
                 <div className="custom-select right w-100">
-                  <select className="">
-                    <option value="0">Sở thích của bạn</option>
-                    <option value="1">Gaming</option>
-                    <option value="2">Fishing</option>
-                    <option value="3">Skydriving</option>
-                    <option value="4">Swimming</option>
-                    <option value="5">Racing</option>
-                    <option value="6">Hangout</option>
-                    <option value="7">Tranvelling</option>
-                    <option value="8">Camping</option>
-                    <option value="9">Touring</option>
-                    <option value="10">Acting</option>
-                    <option value="11">Dancing</option>
-                    <option value="12">Singing</option>
+                  <select
+                    className=""
+                    value={interest}
+                    onChange={handleInterestChange}
+                  >
+                    <option value="">Sở thích của bạn</option>
+                    <option value="chơi game">Chơi game</option>
+                    <option value="nghe nhạc">Nghe nhạc</option>
+                    <option value="xem phim">Xem phim</option>
+                    <option value="chạy bộ">Chạy bộ</option>
                   </select>
                 </div>
               </div>
-              <button type="submit">Tìm kiếm đối tác</button>
+              <div className="form-group">
+                <button type="submit" className="btn btn-primary">
+                  Tìm kiếm
+                </button>
+              </div>
             </form>
           </div>
         </div>

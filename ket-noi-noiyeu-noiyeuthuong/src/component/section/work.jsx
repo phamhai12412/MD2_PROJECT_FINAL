@@ -9,21 +9,21 @@ let WorkListContent = [
     imgAlt: "work thumb",
     step: "step",
     stepCount: "01",
-    title: "Create A Profile",
+    title: "Tạo một hồ sơ",
   },
   {
     imgUrl: "assets/images/work/02.png",
     imgAlt: "work thumb",
     step: "step",
     stepCount: "02",
-    title: "Find Matches",
+    title: "Tìm Kiếm",
   },
   {
     imgUrl: "assets/images/work/03.png",
     imgAlt: "work thumb",
     step: "step",
     stepCount: "03",
-    title: "Start Dating",
+    title: "Hẹn Hò",
   },
 ];
 

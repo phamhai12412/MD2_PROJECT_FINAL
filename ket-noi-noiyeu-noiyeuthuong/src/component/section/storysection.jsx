@@ -23,7 +23,7 @@ let StoryContentList = [
   {
     imgUrl: "assets/images/story/03.jpg",
     imgAlt: "Story Thumb",
-    title: "Dating Online bắt đầu tình yêu của chúng tôi",
+    title: "Blog.vn bắt đầu tình yêu của chúng tôi",
     desc: "Một sự thanh thản kỳ diệu đã xâm chiếm toàn bộ tâm hồn tôi giống như những buổi sáng ngọt ngào",
     btnText: "Đọc thêm",
   },

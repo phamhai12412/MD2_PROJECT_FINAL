@@ -14,6 +14,8 @@ import ScrollToTop from "./component/layout/scralltop";
 import Group from "./pages/group";
 import Seachitem from "./pages/seachitem";
 import FriendPage from "./pages/friend";
+import UserManagement from "./admin/UserManagement";
+import PostManagement from "./admin/PostManagement";
 
 function App() {
   return (
@@ -31,10 +33,12 @@ function App() {
           <Route path="community" element={<CommunityPage />} />
           <Route path="blog" element={<BlogPage />} />
           <Route path="contact" element={<ContactPage />} />
-          <Route path="group" element={<Group />} />
+          <Route path="timkiem" element={<Group />} />
           <Route path="seach" element={<Seachitem />} />
           <Route path="blog-single" element={<BlogSinglePage />} />
           <Route path="friend" element={<FriendPage />} />
+          <Route path="adminuse" element={<UserManagement />} />
+          <Route path="quanlypost" element={<PostManagement />} />
 
           <Route path="*" element={<ForeZeroPage />} />
         </Routes>

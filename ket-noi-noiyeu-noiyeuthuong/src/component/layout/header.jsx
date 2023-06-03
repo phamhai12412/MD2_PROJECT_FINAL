@@ -38,17 +38,18 @@ const Header = () => {
     document.querySelector(".header-top").classList.toggle("open");
   };
 
-  // const datauseol = datause.find((item) => item.usename === useonl);
-  const datauseol = JSON.parse(localStorage.getItem("thongtin"));
-  // console.log(datauseol);
+  let idusenameonl = localStorage.getItem("idusenameonl");
   const handleLogout = () => {
     localStorage.setItem("usenameonl", "-1");
     useonl = -1;
 
     navigate("/login");
   };
+
+  // nhớ fixx
+
   const handelprofile = () => {
-    localStorage.setItem("viewprofile", datauseol.id);
+    localStorage.setItem("viewprofile", idusenameonl);
     navigate("/profile");
   };
   return (
